@@ -1,0 +1,18 @@
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+aside {
+    background-color: #1a202c;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: #38b2ac;
+}

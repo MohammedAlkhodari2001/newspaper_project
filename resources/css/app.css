@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
+.box:hover {
+    @apply shadow-lg transition-shadow duration-300 ease-in-out;
+}
+
+.imageBox img {
+    border-radius: 0.5rem;
+}
+
+
+h4 a {
+    @apply text-gray-800 no-underline hover:text-blue-500;
+}
+
+p a {
+    @apply font-bold text-orange-500 hover:underline;
+}
+
+#search-bar {
+    max-width: 300px; /* Set the width for the whole search bar */
+}
+
+#search-bar .dropdown-menu {
+    max-width: 100%; /* Ensure it doesn't overflow */
+    padding: 10px 0;
+}
+
+#search-bar a {
+    color: #000; /* Set text to black */
+}
+
+#search-bar a:hover {
+    background-color: #f0f0f0; /* Subtle hover background */
+}
+
+#search-bar .font-bold {
+    font-weight: bold;
+    color: #000; /* Black title */
+}
+
+#search-bar small {
+    color: #4a4a4a; /* Slightly lighter for description */
+}
+
+.form-control {
+    border-color: #ccc;
+    box-shadow: none;
+}
+
+.dropdown-menu {
+    overflow: hidden; /* Prevents overflow */
+    border-radius: 10px;
+}
+.text-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;  /* Show only 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;       /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add "..." for overflow text */
+    font-size: 16px;        /* Adjust font size */
+    line-height: 1.5;       /* Add spacing between lines */
+    max-height: 4.5em;      /* Set the maximum height for 3 lines */
+    margin-bottom: 10px;    /* Add space below the description */
+    word-break: break-word; /* Prevent breaking out of the container */
+}
+.break-word {
+    word-break: break-word;  /* Break words naturally */
+    overflow-wrap: break-word;  /* Add extra support */
+    line-height: 1.6;  /* Optional: adjust line height for readability */
+}
+
+
+
