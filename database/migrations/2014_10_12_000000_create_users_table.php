@@ -9,26 +9,29 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id();  // Primary key
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();  // Email verification column
             $table->string('password');
+            $table->string('type')->default('USER');  
+            $table->text('two_factor_secret')->nullable();
+            $table->text('two_factor_recovery_codes')->nullable();
             $table->rememberToken();
-            $table->string('utype')->default("USER");  // Default user type is "USER"
-            $table->timestamps();
+            $table->string('profile_photo_path')->nullable();
+            $table->unsignedBigInteger('current_team_id')->nullable();
+            $table->timestamps();  // created_at and updated_at
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
-        // Drop the whole users table
-        Schema::dropIfExists('users');  // Drop the users table during rollback
+        Schema::dropIfExists('users');
     }
 };

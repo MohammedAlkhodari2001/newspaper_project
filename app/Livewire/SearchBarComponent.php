@@ -7,12 +7,13 @@ use Livewire\Component;
 
 class SearchBarComponent extends Component
 {
-    public $search = "";  // This defines the $search property to be used in the view.
-    public $allPosts=[];
+    public $search = "";  // Holds the search term
+    public $allPosts = [];  // Holds all posts
+
     public function mount()
     {
-        // Optionally fetch posts during component initialization.
-        $this->allPosts = Post::all()->toArray();
+        // Fetch posts as Eloquent objects, not arrays
+        $this->allPosts = Post::all();  // Removed toArray() to keep them as objects
     }
 
     public function render()
@@ -21,9 +22,9 @@ class SearchBarComponent extends Component
 
         if (strlen($this->search) >= 1) {
             $results = Post::where('title', 'like', '%' . $this->search . '%')
-                ->orWhere('shor_desc', 'like', '%' . $this->search . '%')
+                ->orWhere('short_desc', 'like', '%' . $this->search . '%')  // Fixed "short_desc"
                 ->limit(5)
-                ->get();
+                ->get();  // Get the results as objects
         }
 
         return view('livewire.search-bar', [

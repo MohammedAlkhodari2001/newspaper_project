@@ -8,27 +8,29 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *        $table->foreign('student_id')->references('id')->on('student')->onDelete('cascade');
+
      * @return void
      */
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key for user
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Foreign key for category
-            $table->foreignId('tag_id')->constrained('tags')->onDelete('set null')->nullable(); // Foreign key for tag (nullable, with set null)
+            $table->id();  // Primary key
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');  // Foreign key for 'users' table
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');  // Foreign key for 'categories' table
+            $table->foreignId('tag_id')->nullable()->constrained('tags')->onDelete('cascade');  // Foreign key for 'tags' table
             $table->string('title');
             $table->string('slug');
-            $table->longText('shor_desc')->nullable();
+            $table->longText('short_desc')->nullable();
             $table->longText('long_desc')->nullable();
             $table->string('status');
             $table->string('slider_news')->nullable();
             $table->string('bracking_news')->nullable();
             $table->string('popular_news')->nullable();
             $table->string('image')->nullable();
-            $table->timestamps();
+            $table->timestamps();  // created_at & updated_at timestamps
         });
+        
     }
 
     /**

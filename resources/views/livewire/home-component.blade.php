@@ -8,13 +8,12 @@
                     @foreach ($slider_news as $slider_new)
                         <div class="position-relative overflow-hidden rounded-lg shadow-lg" style="height: 500px;">
                             <a href="{{ route('post.single', $slider_new->id) }}">
-                                <!-- Image with consistent width and height -->
-                                <img class="img-fluid w-100 h-100" src="{{ asset('asset/admin/images/posts/' . $slider_new->image) }}" alt="{{ $slider_new->title }}" style="object-fit: cover; border-radius: 10px;">
+                                <img class="img-fluid w-100 h-100" src="{{ asset('asset/admin/images/posts/' . ($slider_new->image ?? 'default.jpg')) }}" alt="{{ $slider_new->title }}" style="object-fit: cover; border-radius: 10px;">
                             </a>
                             <div class="overlay p-4 position-absolute w-100 h-100 d-flex flex-column justify-content-end" style="background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2" href="{{ route('category', ['id' => $slider_new->category->id ?? '']) }}">
-                                        {{ $slider_new->category->name ?? 'Uncategorized' }}
+                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2" href="{{ optional($slider_new->category)->id ? route('category', ['id' => $slider_new->category->id]) : '#' }}">
+                                        {{ optional($slider_new->category)->name ?? 'Uncategorized' }}
                                     </a>
                                     <span class="text-white small">{{ $slider_new->created_at->format('M d, Y') }}</span>
                                 </div>
@@ -34,12 +33,12 @@
                         <div class="col-md-6 px-1">
                             <div class="position-relative overflow-hidden rounded-lg shadow-md" style="height: 250px;">
                                 <a href="{{ route('post.single', $all_post->id) }}">
-                                    <img class="img-fluid w-100 h-100 rounded" src="{{ asset('asset/admin/images/posts/' . $all_post->image) }}" alt="{{ $all_post->title }}" style="object-fit: cover; border-radius: 10px;">
+                                    <img class="img-fluid w-100 h-100 rounded" src="{{ asset('asset/admin/images/posts/' . ($all_post->image ?? 'default.jpg')) }}" alt="{{ $all_post->title }}" style="object-fit: cover; border-radius: 10px;">
                                 </a>
                                 <div class="overlay p-3 position-absolute w-100 h-100 d-flex flex-column justify-content-end" style="background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);">
                                     <div class="mb-2">
                                         <span class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">
-                                            {{ $all_post->category->name ?? 'Uncategorized' }}
+                                            {{ optional($all_post->category)->name ?? 'Uncategorized' }}
                                         </span>
                                         <span class="text-white small">{{ $all_post->created_at->format('M d, Y') }}</span>
                                     </div>
@@ -54,12 +53,9 @@
             </div>
         </div>
     </div>
-    
-
-
     <!-- Main News Slider End -->
 
-    <!-- Breaking News Start -->
+    <!-- Breaking News Section -->
     <div class="container-fluid bg-dark py-3 mb-3">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
@@ -78,8 +74,7 @@
     </div>
     <!-- Breaking News End -->
 
-    <!-- Latest News main -->
-     
+    <!-- Latest News Section -->
     <div class="container-fluid" style="width: 80%; max-width: 100%; margin: auto;">
         <div class="row">
             <div class="col-lg-12">
@@ -92,37 +87,28 @@
                     @foreach($latest_news as $latest_new)
                         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                             <div class="box shadow-sm border rounded p-3">
-                                <!-- Image Section -->
                                 <div class="imageBox mb-3">
                                     <a href="{{ route('post.single', $latest_new->id) }}">
                                         <img class="img-fluid rounded" src="{{ asset('asset/admin/images/posts/' . ($latest_new->image ?? 'default.jpg')) }}" alt="{{ $latest_new->title }}" style="height: 200px; object-fit: cover; width: 100%;">
                                     </a>
                                 </div>
-
-                                <!-- Title Section -->
                                 <h4 class="font-weight-bold">
                                     <a href="{{ route('post.single', $latest_new->id) }}" class="text-dark">{{ \Illuminate\Support\Str::limit($latest_new->title, 50) }}</a>
                                 </h4>
-
-                                <!-- Category and Date -->
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="badge badge-warning text-uppercase p-2">{{ optional($latest_new->category)->name ?? 'Uncategorized' }}</span>
                                     <span class="text-muted small">{{ $latest_new->created_at->format('M d, Y') }}</span>
                                 </div>
-
-                                <!-- Description Section -->
                                 <div>
                                     <p class="text-clamp" style="word-break: break-word;">
-                                        {{ Str::limit($latest_new->shor_desc ?? 'No description available') }}
+                                        {{ \Illuminate\Support\Str::limit($latest_new->short_desc ?? 'No description available') }}
                                         <a href="{{ route('post.single', $latest_new->id) }}" class="text-primary font-weight-bold">Read more...</a>
                                     </p>
                                 </div>
-
-                                <!-- Footer Section: User Info, Views, and Comments -->
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <div class="d-flex align-items-center">
                                         <img class="rounded-circle mr-2" src="{{ asset('asset/img/user.jpg') }}" width="25" height="25" alt="User Avatar">
-                                        <small>{{ $latest_new->user->name ?? 'John Doe' }}</small>
+                                        <small>{{ optional($latest_new->user)->name ?? 'John Doe' }}</small>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <small class="ml-3"><i class="far fa-eye mr-2"></i>{{ $latest_new->views ?? '0' }}</small>
@@ -136,11 +122,4 @@
             </div>
         </div>
     </div>
-
-
-                <!-- Sidebar -->
-            </div>
-        </div>
-    </div>
-    <!-- News With Sidebar End -->
 </div>

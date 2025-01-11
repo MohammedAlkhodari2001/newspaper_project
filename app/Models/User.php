@@ -15,7 +15,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'utype',  
+        'type',  
     ];
 
     protected $hidden = [
@@ -25,25 +25,37 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    protected $appends = [
-        'profile_photo_url',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
     /**
-     * Check if the user is an admin.
-     *
-     * @return bool
+     * Role Checks
      */
     public function isAdmin(): bool
     {
-        return $this->utype === 'ADMIN';  
+        return $this->type === 'ADMIN';  
     }
+
+    public function isAuthor(): bool
+    {
+        return $this->type === 'AUTHOR';
+    }
+
+    public function isSupport(): bool
+    {
+        return $this->type === 'SUPPORT_IT';
+    }
+
+    /**
+     * Relationships
+     */
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    
+
+    
 }

@@ -38,10 +38,22 @@
                     <div class="section-title mb-0">
                         <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
                     </div>
-                    <div class="bg-white text-center border border-top-0 p-3">
-                        <a href=""><img class="img-fluid" src="img/news-800x500-2.jpg" alt=""></a>
-                    </div>
+
+                    @forelse($advertisements as $advertisement)
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <!-- Advertisement Title in Bold -->
+                            <p class="font-weight-bold text-dark" style="word-break: break-word;">{{ $advertisement->title }}</p>
+
+                            <!-- Advertisement Description with line breaks -->
+                            <p class="text-dark" style="word-break: break-word;">{{ $advertisement->description }}</p>
+                        </div>
+                    @empty
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <p>No advertisements available.</p>
+                        </div>
+                    @endforelse
                 </div>
+
                 <!-- Ads End -->
 
                 <!-- Breaking News Start -->

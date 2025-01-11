@@ -16,6 +16,13 @@ use App\Livewire\Admin\AdminAddTagComponent;
 use App\Livewire\Admin\AdminEditTagComponent;
 use App\Livewire\Admin\AdminPostsComponent;
 use App\Livewire\Admin\AdminAddPostComponent;
+use App\Http\Middleware\SupportMiddleware;
+use App\Livewire\Support\SupportComponent;
+use App\Livewire\Support\SupportUsersComponent;
+use App\Livewire\Support\SupportAddAdvertisementComponent;
+use App\Livewire\Support\SupportManageAdvertisementsComponent;
+use App\Livewire\Support\SupportSubscriptionsComponent;
+use App\Livewire\Support\SupportManageCommentsComponent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use Livewire\Volt\Volt;
@@ -69,4 +76,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-dashboard', function () {
         return redirect()->route('index');  // Redirect to homepage
     })->name('user.home');
+    Route::middleware(['auth', SupportMiddleware::class])->group(function () {
+        Route::get('/support', SupportUsersComponent::class)->name('support');  // Main Support Dashboard
+        Route::get('/support/users', SupportUsersComponent::class)->name('support.users');  // User management
+        Route::get('/support/advertisements/add', SupportAddAdvertisementComponent::class)->name('support.advertisements.add');  // Add advertisement
+        Route::get('/support/advertisements/manage', SupportManageAdvertisementsComponent::class)->name('support.advertisements.manage');  // Manage advertisements
+        Route::get('/support/subscriptions', SupportSubscriptionsComponent::class)->name('support.subscriptions');  // Manage subscriptions
+        Route::get('/support/comments', SupportManageCommentsComponent::class)->name('support.comments');
+    });
 });

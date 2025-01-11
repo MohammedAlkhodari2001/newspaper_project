@@ -15,6 +15,9 @@ new #[Layout('layouts.guest')] class extends Component
 
     /**
      * Handle an incoming authentication request.
+     * $userType = strtoupper(Auth::user()->type);
+
+        
      */
     public function login(): void
     {
@@ -25,11 +28,14 @@ new #[Layout('layouts.guest')] class extends Component
         Session::regenerate();
 
         // Handle redirection based on role
-        if (Auth::user()->utype === 'ADMIN' || $this->isAdmin) {
+        if (Auth::user()->type === 'ADMIN' || $this->isAdmin) {
             redirect()->route('admin.posts');  // Redirect to admin dashboard
+        } elseif (Auth::user()->type === 'SUPPORT_IT') {  // Ensure 'type' matches column name casing
+            redirect()->route('support');  // Redirect to Support IT dashboard
         } else {
             redirect()->route('index');  // Redirect to home for normal users
         }
+
     }
 };
 ?>
@@ -78,12 +84,7 @@ new #[Layout('layouts.guest')] class extends Component
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
-
-                <!-- Admin Checkbox -->
-                <div class="flex items-center">
-                    <input wire:model="isAdmin" id="isAdmin" type="checkbox" class="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
-                    <label for="isAdmin" class="ml-2 text-sm text-gray-700">Login as Admin</label>
-                </div>
+                
 
                 <!-- Forgot Password -->
                 <div class="text-right">

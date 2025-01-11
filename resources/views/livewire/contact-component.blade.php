@@ -98,21 +98,8 @@
                 </div>
 
                 <!-- Subscribe Section -->
-                <div class="mb-3">
-                    <div class="section-title mb-0">
-                        <h4 class="m-0 text-uppercase font-weight-bold">Subscribe</h4>
-                    </div>
-                    <div class="bg-white text-center border border-top-0 p-3">
-                        <p>Subscribe to  our news.</p>
-                        <div class="input-group mb-2">
-                            <input type="email" id="subscribeEmailInput" class="form-control form-control-lg" placeholder="Your Email" required>
-                            <div class="input-group-append">
-                                <button id="subscribeBtn" class="btn btn-primary font-weight-bold px-3">Sign Up</button>
-                            </div>
-                        </div>
-                        <small>Thank you for helping us</small>
-                    </div>
-                </div>
+                <livewire:subscribe-component />
+
             </div>
         </div>
     </div>

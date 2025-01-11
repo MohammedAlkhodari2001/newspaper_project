@@ -8,14 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    /**
+     * Handle an incoming request.
+     */
+    public function handle(Request $request, Closure $next, $type = 'admin')
     {
-        // Check if the user is authenticated and is an admin
-        if (Auth::check() && Auth::user()->utype === 'ADMIN') {
-            return $next($request);  // Allow access to the admin page
+        // Check if the user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to access this page.');
         }
 
-        // Redirect non-admins to homepage
-        return redirect()->route('index')->with('error', 'Unauthorized Access!');
+        // Check if the user is of the correct type
+        if (Auth::user()->type !== strtoupper($type)) {
+            return redirect()->route('index')->with('error', 'Unauthorized Access!');
+        }
+
+        return $next($request);  // Allow access
     }
 }

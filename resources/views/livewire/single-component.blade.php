@@ -47,9 +47,11 @@
                         <p style="word-break: break-word;">{{ $currentPost->long_desc ?? 'Long description not available.' }}</p>
                         <div class="d-flex justify-content-between bg-white border-top-0 p-3">
                             <div class="d-flex align-items-center">
-                                <span>{{ $author_name }}</span>
+                                <strong>Written by:</strong>
+                                <span class="ml-2">{{ $author_name }}</span>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- News Detail End -->

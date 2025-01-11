@@ -8,21 +8,20 @@ use Livewire\Component;
 
 class SingleComponent extends Component
 {
-    public $selectedPostId;  // Selected post ID from dropdown
-    public $currentPost;     // Current post to display
+    public $currentPost;  // Current post to display
 
+    /**
+     * Mount the component and load the post.
+     */
     public function mount($id = null)
     {
-        // Fetch the post by ID, default to the latest post if no ID is provided
-        $this->currentPost = $id ? Post::with(['category', 'user'])->find($id) : Post::with(['category', 'user'])->latest()->first();
+        // Fetch the post by ID, or the latest post if no ID is provided
+        $this->currentPost = Post::with(['category', 'user'])->find($id) ?? Post::with(['category', 'user'])->latest()->first();
     }
 
-    public function updatedSelectedPostId($postId)
-    {
-        // Update the current post when a new post is selected
-        $this->currentPost = Post::with(['category', 'user'])->findOrFail($postId);
-    }
-
+    /**
+     * Render the post details page.
+     */
     public function render()
     {
         return view('livewire.single-component', [
@@ -32,12 +31,12 @@ class SingleComponent extends Component
             'posts' => Post::latest()->limit(4)->get(),
             'popular_news' => Post::where('popular_news', 1)->limit(10)->get(),
             'latest_news' => Post::latest()->limit(6)->get(),
-            'currentPost' => $this->currentPost,  // Pass the current post to Blade
-            'shor_desc' => $this->currentPost->shor_desc ?? 'No short description available',  // Correct property
-            'long_desc' => $this->currentPost->long_desc ?? 'No long description available',  // Correct property
-            'category_name' => optional($this->currentPost->category)->name ?? 'Uncategorized',  // Get category name
-            'author_name' => optional($this->currentPost->user)->name ?? 'Author Unknown',  // Get author name
-            'image' => $this->currentPost->image,
+            'currentPost' => $this->currentPost,
+            'short_desc' => $this->currentPost->short_desc ?? 'No short description available',  // Handle null case
+            'long_desc' => $this->currentPost->long_desc ?? 'No long description available',  // Handle null case
+            'category_name' => optional($this->currentPost->category)->name ?? 'Uncategorized',  // Handle null case
+            'author_name' => optional($this->currentPost->user)->name ?? 'Author Unknown',  // Handle null case
+            'image' => $this->currentPost->image ?? 'default.jpg',  // Handle missing image
         ]);
     }
 }

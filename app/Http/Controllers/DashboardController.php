@@ -12,9 +12,15 @@ class DashboardController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            if (Auth::user()->utype === 'ADMIN') {
+            $userType = Auth::user()->type;  // Use a single attribute consistently
+
+            if ($userType === 'ADMIN') {
                 return redirect()->route('admin.posts');  // Redirect to the admin posts page
             }
+            elseif ($userType === 'SUPPORT_IT') {
+                return redirect()->route('support.users');  // Redirect to the support users page
+            }
+
             return redirect()->route('index');  // Redirect normal users to home page
         }
 
